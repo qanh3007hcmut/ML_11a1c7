@@ -1,9 +1,10 @@
-from make_dataset import get_dataset
+from datasets import DatasetDict, Dataset
+from src.data.make_dataset import load_and_save_data
 
 CATEGORY_MAPPING = {0: 'World', 1: 'Sports', 2: 'Business', 3: 'Sci/Tech'}
 
 def load_and_preprocess_data():
-    dataset = get_dataset()
+    dataset = load_and_save_data()
     
     train_data = dataset["train"]
     test_data = dataset["test"]
@@ -13,5 +14,15 @@ def load_and_preprocess_data():
         
     train_df['Category'] = train_df['label'].map(CATEGORY_MAPPING)
     test_df['Category'] = test_df['label'].map(CATEGORY_MAPPING)
-        
-    return train_df, test_df
+
+    train_dataset = Dataset.from_pandas(train_df)
+    test_dataset = Dataset.from_pandas(test_df)
+
+    processed_dataset = DatasetDict({"train": train_dataset, "test": test_dataset})
+
+
+    processed_dataset.save_to_disk("data/processed/")
+
+    print(f"✅ Dữ liệu đã được xử lý và lưu tại: data/processed/")
+
+    return processed_dataset
