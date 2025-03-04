@@ -1,25 +1,148 @@
+def train_model_classifiers(model, dataset):
+    # Import libs
+    from src.features.ultils import tune_hyperparameters, build_pipeline, save_trained_model
+    from src.features.timer import TimerLogger
+    from src.models.config import CONFIG
+    
+    model_name = CONFIG.model_dict[model]
+    
+    timer = TimerLogger() 
+    timer.start()
+    
+    # Extract dataset
+    X_train = dataset["train"]["text"]
+    y_train = dataset["train"]["Category"]
+    
+    # Build and train the model
+    pipeline = build_pipeline(model)
+    tuned_pipeline = tune_hyperparameters(pipeline, X_train, y_train)
+    tuned_pipeline.fit(X_train, y_train)
+
+    timer.stop()
+    # Save the trained model
+    save_trained_model(tuned_pipeline, model)
+
+    print(f"✅ {model_name} is trained")
+    return tuned_pipeline
+
 def naive_bayes(dataset):
     
     # Import libs
-    from sklearn.naive_bayes import MultinomialNB
-    from src.features.ultils import convert_to_sparse, save_trained_model, get_best_alpha
-    from src.models.config import STOP_WORDS, TFIDF_MAX_FEATURES
+    from src.features.ultils import tune_hyperparameters, build_pipeline, save_trained_model
+    from src.features.timer import TimerLogger
+    
+    timer = TimerLogger() 
+    timer.start()
     
     # Extract dataset
-    train_texts = dataset["train"]["text"]
-    train_labels = dataset["train"]["label"]
+    X_train = dataset["train"]["text"]
+    y_train = dataset["train"]["Category"]
     
-    # Sparse feature
-    X_train = convert_to_sparse(train_texts, STOP_WORDS, TFIDF_MAX_FEATURES)
+    # Build and train the model
+    pipeline = build_pipeline("naive_bayes")
+    tuned_pipeline = tune_hyperparameters(pipeline, X_train, y_train)
+    tuned_pipeline.fit(X_train, y_train)
 
-    # Use GridSearchCV to find best alpha
-    best_alpha = get_best_alpha(X_train,train_labels)
-    
-    # Initialize model & train
-    model = MultinomialNB(alpha=best_alpha)
-    model.fit(X_train, train_labels)
-
-    save_trained_model(model,"naive_bayes")
+    timer.stop()
+    # Save the trained model
+    save_trained_model(tuned_pipeline, "naive_bayes")
 
     print(f"✅ Naive Bayes is trained")
-    return model
+    return tuned_pipeline
+
+def decision_tree(dataset):
+    
+    # Import libs
+    from src.features.ultils import tune_hyperparameters, build_pipeline, save_trained_model
+    from src.features.timer import TimerLogger
+    
+    timer = TimerLogger(interval=10) 
+    timer.start()
+    
+    # Extract dataset
+    X_train = dataset["train"]["text"]
+    y_train = dataset["train"]["Category"]
+    
+    # Build and train the model
+    pipeline = build_pipeline("decision_tree")
+    tuned_pipeline = tune_hyperparameters(pipeline, X_train, y_train)
+    tuned_pipeline.fit(X_train, y_train)
+
+    timer.stop()
+    # Save the trained model
+    save_trained_model(tuned_pipeline, "decision_tree")
+
+    print(f"✅ Decision Tree is trained")
+    return tuned_pipeline
+
+def neural_network(dataset):
+    
+    # Import libs
+    from src.features.ultils import build_pipeline, save_trained_model
+    from src.features.timer import TimerLogger
+    
+    timer = TimerLogger(interval=10) 
+    timer.start()
+    
+    # Extract dataset
+    X_train = dataset["train"]["text"]
+    y_train = dataset["train"]["Category"]
+    
+    # Build and train the model
+    pipeline = build_pipeline("neural_network")
+    pipeline.fit(X_train, y_train)
+
+    timer.stop()
+    # Save the trained model
+    save_trained_model(pipeline, "neural_network")
+
+    print(f"✅ Neural Network is trained")
+    return pipeline
+
+def bayesian_network(dataset):
+    
+    # Import libs
+    from src.features.ultils import build_pipeline, save_trained_model
+    from src.features.timer import TimerLogger
+    
+    timer = TimerLogger(interval=10) 
+    timer.start()
+    
+    # Extract dataset
+    X_train = dataset["train"]["text"]
+    y_train = dataset["train"]["Category"]
+    
+    # Build and train the model
+    pipeline = build_pipeline("bayesian_network")
+    pipeline.fit(X_train, y_train)
+
+    timer.stop()
+    # Save the trained model
+    save_trained_model(pipeline, "bayesian_network")
+
+    print(f"✅ Bayesian network is trained")
+    return pipeline
+
+def hidden_markov_model(dataset):
+    
+    # Import libs
+    from src.features.ultils import build_pipeline, save_trained_model
+    from src.features.timer import TimerLogger
+    
+    timer = TimerLogger(interval=10) 
+    timer.start()
+    
+    # Extract dataset
+    X_train = dataset["train"]["text"]
+    y_train = dataset["train"]["Category"]
+    
+    # Build and train the model
+    pipeline = build_pipeline("hidden_markov_model")
+    pipeline.fit(X_train, y_train)
+
+    timer.stop()
+    # Save the trained model
+    save_trained_model(pipeline, "hidden_markov_model")
+
+    print(f"✅ Hidden Markov Model is trained")
+    return pipeline
