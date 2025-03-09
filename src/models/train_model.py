@@ -1,6 +1,6 @@
 def train_model_classifiers(model, dataset):
     # Import libs
-    from src.features.ultils import tune_hyperparameters, build_pipeline, save_trained_model
+    from src.features.utils import tune_hyperparameters, build_pipeline, save_trained_model
     from src.features.timer import TimerLogger
     from src.models.config import CONFIG
     
@@ -28,7 +28,7 @@ def train_model_classifiers(model, dataset):
 def naive_bayes(dataset):
     
     # Import libs
-    from src.features.ultils import tune_hyperparameters, build_pipeline, save_trained_model
+    from src.features.utils import tune_hyperparameters, build_pipeline, save_trained_model
     from src.features.timer import TimerLogger
     
     timer = TimerLogger() 
@@ -53,7 +53,7 @@ def naive_bayes(dataset):
 def decision_tree(dataset):
     
     # Import libs
-    from src.features.ultils import tune_hyperparameters, build_pipeline, save_trained_model
+    from src.features.utils import tune_hyperparameters, build_pipeline, save_trained_model
     from src.features.timer import TimerLogger
     
     timer = TimerLogger(interval=10) 
@@ -78,7 +78,7 @@ def decision_tree(dataset):
 def neural_network(dataset):
     
     # Import libs
-    from src.features.ultils import build_pipeline, save_trained_model
+    from src.features.utils import build_pipeline, save_trained_model
     from src.features.timer import TimerLogger
     
     timer = TimerLogger(interval=10) 
@@ -102,7 +102,7 @@ def neural_network(dataset):
 def bayesian_network(dataset):
     
     # Import libs
-    from src.features.ultils import build_pipeline, save_trained_model
+    from src.features.utils import build_pipeline, save_trained_model
     from src.features.timer import TimerLogger
     
     timer = TimerLogger(interval=10) 
@@ -126,7 +126,7 @@ def bayesian_network(dataset):
 def hidden_markov_model(dataset):
     
     # Import libs
-    from src.features.ultils import build_pipeline, save_trained_model
+    from src.features.utils import build_pipeline, save_trained_model
     from src.features.timer import TimerLogger
     
     timer = TimerLogger(interval=10) 

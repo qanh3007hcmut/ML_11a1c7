@@ -1,5 +1,5 @@
 def predict_model(model, dataset):
-    from src.features.ultils import load_trained_model
+    from src.features.utils import load_trained_model
     from src.models.config import CONFIG
     from src.features.evaluation import evaluate_accuracy, plot_confusion_matrix, evaluate_classification, print_classification_report, evaluate_roc_auc, print_cross_validation
     from src.features.timer import TimerLogger
@@ -34,7 +34,7 @@ def predict_model(model, dataset):
     return predictions
 
 def naive_bayes(dataset):
-    from src.features.ultils import load_trained_model
+    from src.features.utils import load_trained_model
     from src.models.config import CONFIG
     from src.features.evaluation import evaluate_accuracy, plot_confusion_matrix, evaluate_classification, print_classification_report, evaluate_roc_auc, print_cross_validation
     
@@ -56,7 +56,7 @@ def naive_bayes(dataset):
     return predictions
     
 def decision_tree(dataset):
-    from src.features.ultils import load_trained_model
+    from src.features.utils import load_trained_model
     from src.models.config import CONFIG
     from src.features.evaluation import evaluate_accuracy, plot_confusion_matrix, evaluate_classification, print_classification_report, evaluate_roc_auc, print_cross_validation
     
@@ -78,7 +78,7 @@ def decision_tree(dataset):
     return predictions
 
 def neural_network(dataset):
-    from src.features.ultils import load_trained_model
+    from src.features.utils import load_trained_model
     from src.models.config import CONFIG
     from src.features.evaluation import evaluate_accuracy, plot_confusion_matrix, evaluate_classification, print_classification_report, evaluate_roc_auc, print_cross_validation
     
@@ -97,7 +97,7 @@ def neural_network(dataset):
     return predictions
 
 def bayesian_network(dataset):
-    from src.features.ultils import load_trained_model
+    from src.features.utils import load_trained_model
     from src.models.config import CONFIG
     from src.features.evaluation import evaluate_accuracy, plot_confusion_matrix, evaluate_classification, print_classification_report, evaluate_roc_auc, print_cross_validation
     from src.features.timer import TimerLogger
@@ -123,7 +123,7 @@ def bayesian_network(dataset):
     return predictions
 
 def hidden_markov_model(dataset):
-    from src.features.ultils import load_trained_model
+    from src.features.utils import load_trained_model
     from src.models.config import CONFIG
     from src.features.evaluation import evaluate_accuracy, plot_confusion_matrix, evaluate_classification, print_classification_report, evaluate_roc_auc, print_cross_validation
     

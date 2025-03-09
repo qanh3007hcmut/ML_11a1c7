@@ -1,5 +1,5 @@
 def test_model_classification(model_type):
-    from src.features.ultils import load_trained_model
+    from src.features.utils import load_trained_model
     from tests.test_data import test_texts
     from src.features.timer import TimerLogger
     

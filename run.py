@@ -1,7 +1,7 @@
 import argparse
 from src.data.preprocess import load_and_preprocess_data
 from src.features.evaluation import *
-from src.features.ultils import get_dataset
+from src.features.utils import get_dataset
 from src.models.config import BayesianNetworkClassifier, HMMClassifier, MLPTextClassifier
 import warnings
 warnings.simplefilter("ignore", category=UserWarning)
