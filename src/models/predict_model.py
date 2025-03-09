@@ -23,13 +23,14 @@ def predict_model(model, dataset):
     evaluate_classification(y_test, predictions)
     print_classification_report(y_test, predictions, labels=CONFIG.categories)
 
-    if model != "neural_network":
-        print("=== Cross-Validation on Training Set ===")
+    if model not in ["neural_network", "hidden_markov_model", "bayesian_network"]:
+        print("=== Cross-Validation on Test Set ===")
         print_cross_validation(trained_model, dataset["train"]["text"], dataset["train"]["Category"])
-        if model == "bayesian_network":
-            evaluate_roc_auc(y_test, predictions, trained_model)
+        
+    if model in ["bayesian_network"]:
+        evaluate_roc_auc(y_test, predictions, trained_model)
     
-    plot_confusion_matrix(y_test, predictions, labels=CONFIG.categories)
+    plot_confusion_matrix(y_test, predictions, labels=CONFIG.categories, model = model)
     return predictions
 
 def naive_bayes(dataset):

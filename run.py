@@ -22,8 +22,11 @@ def main():
        
     2. Review Dataset:
        python run.py --task review
+    
+    3. Test with test_data:
+       python run.py --task test <model_name>
        
-    3. Train a Model:
+    4. Train a Model:
        python run.py --train <model_name>
        
        Available models:
@@ -36,7 +39,7 @@ def main():
        Example:
        python run.py --train naive_bayes
        
-    4. Predict Using a Model:
+    5. Predict Using a Model:
        python run.py --predict <model_name>
        
        Example:
@@ -73,44 +76,46 @@ def main():
     )
     
     args = parser.parse_args()
-
-    if args.task:
-        if not args.task[0]:
-            parser.error("No task specified. Use --task preprocess, review, or test <model_name>")
-            
-        elif args.task[0] == "preprocess":
-            print("📥 Fetching and preprocess dataset...")
-            load_and_preprocess_data()
-        
-        elif args.task[0] == "review":
-            print("Reviewing dataset...")
-            get_dataset()
-        elif args.task[0] == "test":
-            from tests.test_models import test_model_classification
-            if len(args.task) < 2:
-                parser.error("You must specify a model name after --task test")
-            
-            model_name = args.task[1]
-            valid_models = ["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"]
-            if model_name not in valid_models:
-                parser.error(f"Invalid model name. Choose from: {valid_models}")
-            
-            print("🛠 Testing the model...")
-            test_model_classification(model_name)
     
-    elif args.train:    
-        from src.models.train_model import train_model_classifiers as train_model
-        from src.models.config import CONFIG
-        print(f"↗️  Training {CONFIG.model_dict[args.train]} with dataset ag_news")
-        train_model(args.train, get_dataset())
+    if not args: print(usage_text)
+    else: 
+        if args.task:
+            if not args.task[0]:
+                parser.error("No task specified. Use --task preprocess, review, or test <model_name>")
+                
+            elif args.task[0] == "preprocess":
+                print("📥 Fetching and preprocess dataset...")
+                load_and_preprocess_data()
+            
+            elif args.task[0] == "review":
+                print("Reviewing dataset...")
+                get_dataset()
+            elif args.task[0] == "test":
+                from tests.test_models import test_model_classification
+                if len(args.task) < 2:
+                    parser.error("You must specify a model name after --task test")
+                
+                model_name = args.task[1]
+                valid_models = ["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"]
+                if model_name not in valid_models:
+                    parser.error(f"Invalid model name. Choose from: {valid_models}")
+                
+                print("🛠 Testing the model...")
+                test_model_classification(model_name)
         
-    elif args.predict:    
-        from src.models.predict_model import predict_model
-        from src.models.config import CONFIG
-        print(f"↗️  Predicting by {CONFIG.model_dict[args.predict]} with test dataset ag_news")
-        predict_model(args.predict, get_dataset())   
-        
-    else:
-        print(usage_text)       
+        elif args.train:    
+            from src.models.train_model import train_model_classifiers as train_model
+            from src.models.config import CONFIG
+            print(f"↗️  Training {CONFIG.model_dict[args.train]} with dataset ag_news")
+            train_model(args.train, get_dataset())
+            
+        elif args.predict:    
+            from src.models.predict_model import predict_model
+            from src.models.config import CONFIG
+            print(f"↗️  Predicting by {CONFIG.model_dict[args.predict]} with test dataset ag_news")
+            predict_model(args.predict, get_dataset())   
+            
+        else:
+            print(usage_text)       
 if __name__ == "__main__":
     main()

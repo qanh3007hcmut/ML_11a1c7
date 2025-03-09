@@ -22,7 +22,7 @@ class TimerLogger:
         """Hàm chạy trong background để log thời gian trên cùng một dòng."""
         while not self.stop_flag:
             elapsed = int(time.time() - self.start_time)  # Làm tròn giây
-            print(f"⏳ Training in progress... {elapsed:.2f} seconds elapsed", end="\r")
+            print(f"⏳ {self.task_type} in progress... {elapsed:.2f} seconds elapsed", end="\r")
             
         elapsed = int(time.time() - self.start_time)
         sys.stdout.write(f"\r✅ {self.task_type} finished in {elapsed} seconds ({elapsed / 60:.2f} minutes)\n")

@@ -5,18 +5,22 @@ def evaluate_accuracy(y_true, y_pred):
     print(f"📊 Accuracy: {accuracy:.4f}")
     return accuracy
 
-def plot_confusion_matrix(y_true, y_pred, labels):
+def plot_confusion_matrix(y_true, y_pred, labels, model):
     import seaborn as sns
     import matplotlib.pyplot as plt
+    import os
     from sklearn.metrics import confusion_matrix
-    
+    save_path = os.path.abspath(f"src/visualization/confusion_matrix/{model}.png")
+
     cm = confusion_matrix(y_true, y_pred)
     plt.figure(figsize=(6, 5))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=labels, yticklabels=labels)
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
     plt.title("Confusion Matrix")
+    plt.savefig(save_path, bbox_inches="tight", dpi=300)
     plt.show()
+    print(f"✅ Confusion matrix saved at: {save_path}")
 
 def evaluate_classification(y_true, y_pred):
     from sklearn.metrics import precision_score, recall_score, f1_score
