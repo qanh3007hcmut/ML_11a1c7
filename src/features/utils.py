@@ -134,13 +134,147 @@ def save_trained_model(model, model_name):
     joblib.dump(model, model_path)
     print(f"💾 Model saved at: {model_path}")
 
+# def review_data():
+#     from datasets import load_from_disk
+#     from src.models.config import CONFIG
+
+#     # Load dataset
+#     dataset = load_from_disk(CONFIG.processed_data_path)
+
+#     # Kiểm tra số lượng observation
+#     print(f"Train dataset size: {dataset['train'].num_rows} observations")
+#     print(f"Test dataset size: {dataset['test'].num_rows} observations")
 def review_data():
+    """
+    Display comprehensive information about the dataset including class distribution,
+    text length statistics, and sample entries from each category.
+    """
     from datasets import load_from_disk
     from src.models.config import CONFIG
-
+    import numpy as np
+    import pandas as pd
+    from collections import Counter
+    import matplotlib.pyplot as plt
+    
+    print("=== Dataset Review ===\n")
+    
     # Load dataset
-    dataset = load_from_disk(CONFIG.processed_data_path)
-
-    # Kiểm tra số lượng observation
-    print(f"Train dataset size: {dataset['train'].num_rows} observations")
-    print(f"Test dataset size: {dataset['test'].num_rows} observations")
+    try:
+        dataset = load_from_disk(CONFIG.processed_data_path)
+        print(f"✓ Successfully loaded dataset from {CONFIG.processed_data_path}\n")
+    except Exception as e:
+        print(f"✗ Error loading dataset: {e}")
+        return
+    
+    # Basic dataset info
+    print("Dataset Overview:")
+    print(f"Train dataset: {dataset['train'].num_rows:,} observations")
+    print(f"Test dataset: {dataset['test'].num_rows:,} observations")
+    print(f"Total dataset: {dataset['train'].num_rows + dataset['test'].num_rows:,} observations\n")
+    
+    # Get features and convert to pandas for easier analysis
+    train_df = pd.DataFrame(dataset['train'])
+    test_df = pd.DataFrame(dataset['test'])
+    
+    # Display features/columns
+    print(f"Features: {', '.join(train_df.columns.tolist())}\n")
+    
+    # Class distribution
+    print("Class Distribution:")
+    train_labels = Counter(train_df['label'])
+    test_labels = Counter(test_df['label'])
+    
+    # Map numeric labels to categories if mapping exists
+    label_map = getattr(CONFIG, 'label_map', None)
+    
+    for label in sorted(train_labels.keys()):
+        category = label_map.get(label, label) if label_map else label
+        train_count = train_labels[label]
+        train_pct = 100 * train_count / train_df.shape[0]
+        test_count = test_labels[label]
+        test_pct = 100 * test_count / test_df.shape[0]
+        
+        print(f"  Category {category}:")
+        print(f"    Train: {train_count:,} ({train_pct:.2f}%)")
+        print(f"    Test:  {test_count:,} ({test_pct:.2f}%)")
+    
+    print()
+    
+    # Text length statistics
+    print("Text Length Statistics:")
+    train_df['text_length'] = train_df['text'].apply(lambda x: len(x.split()))
+    
+    print(f"  Min length: {train_df['text_length'].min()} words")
+    print(f"  Max length: {train_df['text_length'].max()} words")
+    print(f"  Mean length: {train_df['text_length'].mean():.2f} words")
+    print(f"  Median length: {train_df['text_length'].median()} words")
+    print()
+    
+    # Display sample entries from each category
+    print("Sample Entries:")
+    for label in sorted(train_labels.keys()):
+        category = label_map.get(label, label) if label_map else label
+        samples = train_df[train_df['label'] == label].sample(min(2, train_labels[label]))
+        
+        print(f"\n  Category: {category}")
+        for i, (_, sample) in enumerate(samples.iterrows(), 1):
+            print(f"    Sample {i}: \"{sample['text'][:100]}{'...' if len(sample['text']) > 100 else ''}\"")
+    
+    # Create visualizations directory if it doesn't exist
+    import os
+    if not os.path.exists('data/visualizations'):
+        os.makedirs('data/visualizations')
+    
+    # Save class distribution plot
+    plt.figure(figsize=(10, 6))
+    categories = [label_map.get(label, label) if label_map else label for label in sorted(train_labels.keys())]
+    train_counts = [train_labels[label] for label in sorted(train_labels.keys())]
+    test_counts = [test_labels[label] for label in sorted(train_labels.keys())]
+    
+    x = np.arange(len(categories))
+    width = 0.35
+    
+    plt.bar(x - width/2, train_counts, width, label='Train')
+    plt.bar(x + width/2, test_counts, width, label='Test')
+    
+    plt.xlabel('Categories')
+    plt.ylabel('Number of Samples')
+    plt.title('Class Distribution in Dataset')
+    plt.xticks(x, categories)
+    plt.legend()
+    
+    plt.savefig('data/visualizations/class_distribution.png')
+    print("\nClass distribution visualization saved to 'data/visualizations/class_distribution.png'")
+    
+    # Save text length distribution plot
+    plt.figure(figsize=(10, 6))
+    plt.hist(train_df['text_length'], bins=50, alpha=0.7)
+    plt.xlabel('Text Length (words)')
+    plt.ylabel('Frequency')
+    plt.title('Text Length Distribution')
+    
+    plt.savefig('data/visualizations/text_length_distribution.png')
+    print("Text length distribution visualization saved to 'data/visualizations/text_length_distribution.png'")
+    
+    # Generate a word cloud of most common words if wordcloud is installed
+    try:
+        from wordcloud import WordCloud
+        
+        # Combine all text for word cloud
+        all_text = ' '.join(train_df['text'].tolist())
+        
+        # Generate and save word cloud
+        wordcloud = WordCloud(width=800, height=400, background_color='white', max_words=100).generate(all_text)
+        
+        plt.figure(figsize=(10, 6))
+        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.axis('off')
+        plt.title('Most Common Words in Dataset')
+        
+        plt.savefig('data/visualizations/word_cloud.png')
+        print("Word cloud visualization saved to 'data/visualizations/word_cloud.png'")
+    except ImportError:
+        print("\nNote: Install the 'wordcloud' package to generate word cloud visualizations:")
+        print("pip install wordcloud")
+    
+    print("\n=== Dataset Review Completed ===")

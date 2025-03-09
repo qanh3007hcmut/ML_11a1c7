@@ -4,8 +4,8 @@ test_texts = [
     "NASA discovered a new exoplanet in space."
 ]
 
-test_label = [
-    "Business", 
-    "Sports", 
-    "Science"
-]
+# test_label = [
+#     "Business", 
+#     "Sports", 
+#     "Science"
+# ]

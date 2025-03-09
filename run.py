@@ -1,5 +1,6 @@
 import argparse
 from src.data.preprocess import load_and_preprocess_data
+from src.features.utils import review_data
 from src.features.evaluation import *
 from src.features.utils import get_dataset
 from src.models.config import BayesianNetworkClassifier, HMMClassifier, MLPTextClassifier
@@ -75,6 +76,14 @@ def main():
         help="choose model to predict with dataset ag_news test"
     )
     
+    # Add test action with choice of model
+    parser.add_argument(
+        "--test", 
+        type=str, 
+        choices=["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"],
+        help="choose model to test with custom test"
+    )
+    
     args = parser.parse_args()
     
     if not args: print(usage_text)
@@ -89,19 +98,7 @@ def main():
             
             elif args.task[0] == "review":
                 print("Reviewing dataset...")
-                get_dataset()
-            elif args.task[0] == "test":
-                from tests.test_models import test_model_classification
-                if len(args.task) < 2:
-                    parser.error("You must specify a model name after --task test")
-                
-                model_name = args.task[1]
-                valid_models = ["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"]
-                if model_name not in valid_models:
-                    parser.error(f"Invalid model name. Choose from: {valid_models}")
-                
-                print("🛠 Testing the model...")
-                test_model_classification(model_name)
+                review_data()
         
         elif args.train:    
             from src.models.train_model import train_model_classifiers as train_model
@@ -114,7 +111,18 @@ def main():
             from src.models.config import CONFIG
             print(f"↗️  Predicting by {CONFIG.model_dict[args.predict]} with test dataset ag_news")
             predict_model(args.predict, get_dataset())   
+        
+        elif args.test:
+            from tests.test_models import test_model_classification
             
+            model_name = args.test
+            valid_models = ["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"]
+            if model_name not in valid_models:
+                parser.error(f"Invalid model name. Choose from: {valid_models}")
+            
+            print("🛠 Testing the model...")
+            test_model_classification(model_name)
+                     
         else:
             print(usage_text)       
 if __name__ == "__main__":

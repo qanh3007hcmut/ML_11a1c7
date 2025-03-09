@@ -23,6 +23,6 @@ def load_and_preprocess_data():
 
     processed_dataset.save_to_disk(CONFIG.processed_data_path)
 
-    print(f"✅ Dữ liệu đã được xử lý và lưu tại: {CONFIG.processed_data_path}")
+    print(f"✅ Data saved at: {CONFIG.processed_data_path}")
 
     return processed_dataset
