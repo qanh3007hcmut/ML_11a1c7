@@ -25,16 +25,6 @@ You can install all dependencies with:
 pip install -r requirements.txt
 ```
 
-Alternatively, the main libraries used include:
-- scikit-learn
-- pandas
-- numpy
-- datasets
-- matplotlib
-- seaborn
-- pgmpy (for Bayesian Network)
-- hmmlearn (for Hidden Markov Model)
-
 ## Usage
 
 The main entry point for the pipeline is `run.py`, which provides a command-line interface to interact with the system.
