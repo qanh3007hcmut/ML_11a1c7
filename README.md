@@ -110,11 +110,13 @@ python run.py --predict naive_bayes
 Train dataset size: 120000 observations
 Model loaded successfully using joblib from models/trained/naive_bayes.pkl
 Predicting finished in 0 seconds (0.00 minutes)
+
 === Test Set Performance ===
 Accuracy: 0.8525
 Precision: 0.8516
 Recall: 0.8525
 F1-score: 0.8518
+
 Classification Report:
                precision    recall  f1-score   support
 
