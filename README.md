@@ -7,7 +7,6 @@ The **AG News** dataset serves as a robust benchmark for text classification, co
 The pipeline includes data preprocessing, model training, evaluation, and prediction capabilities.
 
 ## Quick Start
-
 ```bash
 pip install -r requirements.txt
 python run.py --task preprocess
@@ -146,5 +145,5 @@ python run.py --test naive_bayes
 🛠 Testing the model...
 Model loaded successfully using joblib from models/trained/naive_bayes.pkl
 Testing finished in 0 seconds (0.00 minutes)
-Predicted Categories: ['Business' 'Sports' 'Sci/Tech']
+Predicted Categories: ['Business', 'Sports', 'Sci/Tech']
 ```
