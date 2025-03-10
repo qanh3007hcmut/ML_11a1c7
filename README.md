@@ -1,5 +1,4 @@
 # Text Classification Pipeline
-
 GitHub Repository: [Our Repository Link](https://github.com/qanh3007hcmut/ML_11a1c7)
 
 ## Contribution
@@ -26,7 +25,6 @@ python run.py --predict naive_bayes
 ```
 
 ## Supported Models
-
 - **Naive Bayes** (`naive_bayes`) - Fast baseline classifier
 - **Decision Tree** (`decision_tree`) - Interpretable model
 - **Neural Network** (`neural_network`) - MLP for complex patterns
@@ -40,7 +38,6 @@ python run.py [OPTIONS]
 ```
 ### Data Operations
 - **Preprocess raw data**
-
 ```bash
 python run.py --task preprocess
 ```
