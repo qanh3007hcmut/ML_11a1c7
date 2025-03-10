@@ -135,14 +135,12 @@ weighted avg       0.85      0.85      0.85      7600
 ### Test with custom data saved at tests/test_data.py
 ```bash
 python run.py --test naive_bayes
-# "Stock markets are seeing a huge drop today."
 # "The football team won the championship!"
-# "NASA discovered a new exoplanet in space."
 ```
 #### Expected Output
 ```bash
 🛠 Testing the model...
 Model loaded successfully using joblib from models/trained/naive_bayes.pkl
 Testing finished in 0 seconds (0.00 minutes)
-Predicted Categories: ['Business', 'Sports', 'Sci/Tech']
+Predicted Categories: ['Sports']
 ```
