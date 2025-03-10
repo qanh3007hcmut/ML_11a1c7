@@ -84,12 +84,7 @@ python run.py --test MODEL_NAME
    - Confusion matrix visualization
    - Cross-validation reporting
 
-## Performance Monitoring
-
-The pipeline includes a timer utility that logs execution time for training and prediction tasks, helping to monitor model efficiency.
-
 ## Additional Notes
-
 - Models are serialized using joblib for efficient storage and loading
 - The system includes cross-validation to ensure model robustness
 - Confusion matrices help visualize classification performance
