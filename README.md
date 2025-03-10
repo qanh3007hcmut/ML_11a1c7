@@ -69,7 +69,6 @@ python run.py --test MODEL_NAME
    - Metric: accuracy, precision, recall, F1-score 
    - Confusion matrix visualization
    - Cross-validation reporting
-   - ROC-AUC for applicable models
 
 ## Performance Monitoring
 
@@ -94,17 +93,11 @@ python run.py --train naive_bayes
 ```
 #### Expected Output
 ```bash
-Saving the dataset (1/1 shards): 100%|█████████████████████████████| 120000/120000 [00:00<00:00, 1979628.08 examples/s]
-Saving the dataset (1/1 shards): 100%|█████████████████████████████████| 7600/7600 [00:00<00:00, 1292805.71 examples/s]
-Saving the dataset (1/1 shards): 100%|█████████████████████████████| 120000/120000 [00:00<00:00, 2790946.38 examples/s]
-Saving the dataset (1/1 shards): 100%|█████████████████████████████████| 7600/7600 [00:00<00:00, 1375775.16 examples/s]
-✅ Data saved at: data/processed/
+Data saved at: data/processed/
 Train dataset size: 120000 observations
-🕒 Training started at 2025-03-09 19:26:30
-✅ Best hyperparameters found: {'clf__alpha': 0.1}
-✅ Training finished in 117 seconds (1.95 minutes)
-💾 Model saved at: models/experiments/naive_bayes.pkl
-✅ Naive Bayes is trained
+Best hyperparameters found: {'clf__alpha': 0.1}
+Training finished in 117 seconds (1.95 minutes)
+Model saved at: models/experiments/naive_bayes.pkl
 ```
 ### Using a Pre-trained Model
 
@@ -115,15 +108,13 @@ python run.py --predict naive_bayes
 #### Expected Output
 ```bash
 Train dataset size: 120000 observations
-🕒 Predicting started at 2025-03-09 19:41:35
-🔮 Making predictions with Naive Bayes... elapsed
-✅ Model loaded successfully using joblib from models/trained/naive_bayes.pkl
-✅ Predicting finished in 0 seconds (0.00 minutes)
+Model loaded successfully using joblib from models/trained/naive_bayes.pkl
+Predicting finished in 0 seconds (0.00 minutes)
 === Test Set Performance ===
-📊 Accuracy: 0.8525
-🎯 Precision: 0.8516
-📥 Recall: 0.8525
-⚖️ F1-score: 0.8518
+Accuracy: 0.8525
+Precision: 0.8516
+Recall: 0.8525
+F1-score: 0.8518
 Classification Report:
                precision    recall  f1-score   support
 
@@ -148,8 +139,7 @@ python run.py --test naive_bayes
 #### Expected Output
 ```bash
 🛠 Testing the model...
-🕒 Testing started at 2025-03-09 19:48:29
-✅ Model loaded successfully using joblib from models/trained/naive_bayes.pkl
-✅ Testing finished in 0 seconds (0.00 minutes)
+Model loaded successfully using joblib from models/trained/naive_bayes.pkl
+Testing finished in 0 seconds (0.00 minutes)
 Predicted Categories: ['Business' 'Sports' 'Sci/Tech']
 ```
