@@ -1,6 +1,10 @@
 # Text Classification Pipeline
 
-A machine learning pipeline for classifying news articles into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. The pipeline includes data preprocessing, model training, evaluation, and prediction capabilities.
+A machine learning pipeline for classifying news articles into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. 
+
+The AG News dataset serves as a robust benchmark for text classification, comprising thousands of news articles sourced from reputable outlets such as Reuters and AP.
+
+The pipeline includes data preprocessing, model training, evaluation, and prediction capabilities.
 
 ## Quick Start
 
@@ -119,7 +123,6 @@ F1-score: 0.8518
 
 Classification Report:
                precision    recall  f1-score   support
-
        World       0.82      0.80      0.81      1900
       Sports       0.82      0.81      0.82      1900
     Business       0.90      0.94      0.92      1900
