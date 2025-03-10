@@ -1,6 +1,6 @@
 # Text Classification Pipeline
 
-GitHub Repository: [Your Repository Link Here](https://github.com/qanh3007hcmut/ML_11a1c7)
+GitHub Repository: [Our Repository Link](https://github.com/qanh3007hcmut/ML_11a1c7)
 
 A machine learning pipeline for classifying news articles into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. 
 
