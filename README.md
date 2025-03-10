@@ -1,5 +1,7 @@
 # Text Classification Pipeline
 
+GitHub Repository: [Your Repository Link Here](https://github.com/qanh3007hcmut/ML_11a1c7)
+
 A machine learning pipeline for classifying news articles into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. 
 
 The **AG News** dataset serves as a robust benchmark for text classification, comprising thousands of news articles sourced from reputable outlets such as **Reuters** and **AP**.
@@ -86,7 +88,6 @@ The pipeline includes a timer utility that logs execution time for training and 
 ## Example Workflow
 
 ### Training a New Model
-
 ```bash
 # Process raw data (if not already done)
 python run.py --task preprocess
@@ -103,7 +104,6 @@ Training finished in 117 seconds (1.95 minutes)
 Model saved at: models/experiments/naive_bayes.pkl
 ```
 ### Using a Pre-trained Model
-
 ```bash
 # Make predictions on test data
 python run.py --predict naive_bayes
@@ -133,7 +133,6 @@ weighted avg       0.85      0.85      0.85      7600
 ```
 
 ### Test with custom data saved at tests/test_data.py
-
 ```bash
 python run.py --test naive_bayes
 # "Stock markets are seeing a huge drop today."
