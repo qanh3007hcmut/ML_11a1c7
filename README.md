@@ -1,9 +1,22 @@
 # Text Classification Pipeline
+GitHub Repository: [Our Repository Link](https://github.com/qanh3007hcmut/ML_11a1c7)
 
-A machine learning pipeline for classifying news articles into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. The pipeline includes data preprocessing, model training, evaluation, and prediction capabilities.
+## Contribution
+
+| No. | Name                | Student ID | Task                                                                 | Contribution |
+|----|-------------------|------------|-----------------------------------------------------------------|--------------|
+| 1  | Lê Quốc Bảo      | 2252065     | Theory, implementation, and detailed explanation for Decision Tree and Neural Network. Writing overall report. | 33% |
+| 2  | Lê Đỗ Minh Anh   | 2252023     | Theory, implementation, and detailed explanation for Graphical Models (Bayesian Networks, HMM). Running and evaluating model results. | 33% |
+| 3  | Nguyễn Quốc Anh  | 2252035     | Theory, implementation, and detailed explanation for Naive Bayes. Creating and editing GitHub Repository. | 33% |
+
+
+A machine learning pipeline for classifying news articles into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. 
+
+The **AG News** dataset serves as a robust benchmark for text classification, comprising thousands of news articles sourced from reputable outlets such as **Reuters** and **AP**.
+
+The pipeline includes data preprocessing, model training, evaluation, and prediction capabilities.
 
 ## Quick Start
-
 ```bash
 pip install -r requirements.txt
 python run.py --task preprocess
@@ -12,7 +25,6 @@ python run.py --predict naive_bayes
 ```
 
 ## Supported Models
-
 - **Naive Bayes** (`naive_bayes`) - Fast baseline classifier
 - **Decision Tree** (`decision_tree`) - Interpretable model
 - **Neural Network** (`neural_network`) - MLP for complex patterns
@@ -26,7 +38,6 @@ python run.py [OPTIONS]
 ```
 ### Data Operations
 - **Preprocess raw data**
-
 ```bash
 python run.py --task preprocess
 ```
@@ -69,14 +80,8 @@ python run.py --test MODEL_NAME
    - Metric: accuracy, precision, recall, F1-score 
    - Confusion matrix visualization
    - Cross-validation reporting
-   - ROC-AUC for applicable models
-
-## Performance Monitoring
-
-The pipeline includes a timer utility that logs execution time for training and prediction tasks, helping to monitor model efficiency.
 
 ## Additional Notes
-
 - Models are serialized using joblib for efficient storage and loading
 - The system includes cross-validation to ensure model robustness
 - Confusion matrices help visualize classification performance
@@ -84,7 +89,6 @@ The pipeline includes a timer utility that logs execution time for training and 
 ## Example Workflow
 
 ### Training a New Model
-
 ```bash
 # Process raw data (if not already done)
 python run.py --task preprocess
@@ -94,20 +98,13 @@ python run.py --train naive_bayes
 ```
 #### Expected Output
 ```bash
-Saving the dataset (1/1 shards): 100%|█████████████████████████████| 120000/120000 [00:00<00:00, 1979628.08 examples/s]
-Saving the dataset (1/1 shards): 100%|█████████████████████████████████| 7600/7600 [00:00<00:00, 1292805.71 examples/s]
-Saving the dataset (1/1 shards): 100%|█████████████████████████████| 120000/120000 [00:00<00:00, 2790946.38 examples/s]
-Saving the dataset (1/1 shards): 100%|█████████████████████████████████| 7600/7600 [00:00<00:00, 1375775.16 examples/s]
-✅ Data saved at: data/processed/
+Data saved at: data/processed/
 Train dataset size: 120000 observations
-🕒 Training started at 2025-03-09 19:26:30
-✅ Best hyperparameters found: {'clf__alpha': 0.1}
-✅ Training finished in 117 seconds (1.95 minutes)
-💾 Model saved at: models/experiments/naive_bayes.pkl
-✅ Naive Bayes is trained
+Best hyperparameters found: {'clf__alpha': 0.1}
+Training finished in 117 seconds (1.95 minutes)
+Model saved at: models/experiments/naive_bayes.pkl
 ```
 ### Using a Pre-trained Model
-
 ```bash
 # Make predictions on test data
 python run.py --predict naive_bayes
@@ -115,18 +112,17 @@ python run.py --predict naive_bayes
 #### Expected Output
 ```bash
 Train dataset size: 120000 observations
-🕒 Predicting started at 2025-03-09 19:41:35
-🔮 Making predictions with Naive Bayes... elapsed
-✅ Model loaded successfully using joblib from models/trained/naive_bayes.pkl
-✅ Predicting finished in 0 seconds (0.00 minutes)
+Model loaded successfully using joblib from models/trained/naive_bayes.pkl
+Predicting finished in 0 seconds (0.00 minutes)
+
 === Test Set Performance ===
-📊 Accuracy: 0.8525
-🎯 Precision: 0.8516
-📥 Recall: 0.8525
-⚖️ F1-score: 0.8518
+Accuracy: 0.8525
+Precision: 0.8516
+Recall: 0.8525
+F1-score: 0.8518
+
 Classification Report:
                precision    recall  f1-score   support
-
        World       0.82      0.80      0.81      1900
       Sports       0.82      0.81      0.82      1900
     Business       0.90      0.94      0.92      1900
@@ -138,18 +134,14 @@ weighted avg       0.85      0.85      0.85      7600
 ```
 
 ### Test with custom data saved at tests/test_data.py
-
 ```bash
 python run.py --test naive_bayes
-# "Stock markets are seeing a huge drop today."
 # "The football team won the championship!"
-# "NASA discovered a new exoplanet in space."
 ```
 #### Expected Output
 ```bash
 🛠 Testing the model...
-🕒 Testing started at 2025-03-09 19:48:29
-✅ Model loaded successfully using joblib from models/trained/naive_bayes.pkl
-✅ Testing finished in 0 seconds (0.00 minutes)
-Predicted Categories: ['Business' 'Sports' 'Sci/Tech']
+Model loaded successfully using joblib from models/trained/naive_bayes.pkl
+Testing finished in 0 seconds (0.00 minutes)
+Predicted Categories: ['Sports']
 ```
