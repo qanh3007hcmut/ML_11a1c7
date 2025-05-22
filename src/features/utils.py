@@ -344,3 +344,32 @@ def review_data():
         print("pip install wordcloud")
     
     print("\n=== Dataset Review Completed ===")
+    
+def gen_requirement():
+    import pandas as pd
+    import numpy as np
+    import seaborn as sns
+    import matplotlib
+    import sklearn
+    import datasets
+    import pgmpy
+    import hmmlearn
+    # Mapping tên gói thư viện tương ứng với object module
+    packages = {
+        "pandas": pd.__version__,
+        "numpy": np.__version__,
+        "seaborn": sns.__version__,
+        "matplotlib": matplotlib.__version__,
+        "scikit-learn": sklearn.__version__,
+        "datasets": datasets.__version__,
+        "pgmpy": pgmpy.__version__,
+        "hmmlearn": hmmlearn.__version__,
+        # warnings và logging là built-in -> không cần ghi vào requirements.txt
+    }
+
+    # Ghi vào file requirements.txt
+    with open("requirements.txt", "w") as f:
+        for pkg, ver in packages.items():
+            f.write(f"{pkg}=={ver}\n")
+
+    print("✅ requirements.txt đã được tạo.")

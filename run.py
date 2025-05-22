@@ -1,8 +1,7 @@
 import argparse
 from src.data.preprocess import load_and_preprocess_data
-from src.features.utils import review_data
+from src.features.utils import review_data, get_dataset, gen_requirement
 from src.features.evaluation import *
-from src.features.utils import get_dataset
 import warnings
 warnings.simplefilter("ignore", category=UserWarning)
 
@@ -99,6 +98,8 @@ def main():
             elif args.task[0] == "review":
                 print("Reviewing dataset...")
                 review_data()
+            elif args.task[0] == "requirement":
+                gen_requirement()
         
         elif args.train:    
             from src.models.train_model import train_model_classifiers as train_model
