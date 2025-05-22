@@ -6,6 +6,12 @@ from sklearn.preprocessing import LabelEncoder, KBinsDiscretizer
 from pgmpy.estimators import MaximumLikelihoodEstimator
 from pgmpy.inference import VariableElimination
 from pgmpy.models import BayesianNetwork
+from sklearn.ensemble import AdaBoostClassifier, VotingClassifier
+from sklearn.ensemble import BaggingClassifier as Bagging
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+
 from hmmlearn import hmm
 import pandas as pd
 import numpy as np
@@ -17,6 +23,9 @@ class DefaultConfig:
     max_depth: Optional[int] = 10
     min_samples_split: int = 5
     ccp_alpha: float = 0.0
+    C: float = 1.0
+    dual: bool = False
+    max_iter: int = 5000
 
 @dataclass(frozen=True)
 class TuningConfig:
@@ -25,7 +34,11 @@ class TuningConfig:
     max_depth_grid: List[Optional[int]] = field(default_factory=lambda: [10, 20, None])
     min_samples_split_grid: List[int] = field(default_factory=lambda: [2, 5, 10])
     ccp_alpha_grid: List[float] = field(default_factory=lambda: [0.0, 0.001, 0.01])
-
+    tfidf__max_features: List[int] = field(default_factory=lambda: [10000, 20000])
+    tfidf__ngram_range: List[tuple[int]] = field(default_factory=lambda: [(1, 1),(1, 2)]),
+    svm__C: List[float] = field(default_factory=lambda: [0.1, 1.0])
+    clf__C: List[float] = field(default_factory=lambda: [0.01, 0.1, 1.0, 10.0])
+    clf__penalty: int = field(default_factory=lambda: ['l2'])
 @dataclass(frozen=True)
 class Config:
     # Model
@@ -34,10 +47,18 @@ class Config:
         "decision_tree": "Decision Tree",
         "neural_network": "Neural Network Model",
         "bayesian_network": "Bayesian Network",
-        "hidden_markov_model": "Hidden Markov Model"
+        "hidden_markov_model": "Hidden Markov Model",
+        "svm" : "SVM",
+        "svm_pca" : "SVM & PCA",
+        "discriminative" : "Discriminative Model",
+        "bagging" : "Bagging Classifier",
+        "boosting" : "Boosting Classifier",
+        "bagging_model" : "Bagging Classifier",
+        "boosting_model" : "Boosting Classifier"
     }
     
     # Labels
+    CATEGORY_MAPPING = {0: 'World', 1: 'Sports', 2: 'Business', 3: 'Sci/Tech'}
     categories: List[str] = field(default_factory=lambda: ["World", "Sports", "Business", "Sci/Tech"])
 
     # Directories
@@ -195,3 +216,35 @@ class HMMClassifier:
             predicted_category = max(scores, key=scores.get)
             predictions.append(predicted_category)
         return np.array(predictions)
+
+class BoostingClassifier:
+    def __init__(self, n_estimators=10, random_state=42):
+        self.base_models = [
+            ('lr', LogisticRegression(max_iter=1000)),
+            ('nb', MultinomialNB()),
+            ('dt', DecisionTreeClassifier(max_depth=100))
+        ]
+        self.voting_clf = VotingClassifier(estimators=self.base_models, voting='soft', weights=[2, 1, 1])
+        self.model = AdaBoostClassifier(estimator=self.voting_clf, n_estimators=n_estimators, random_state=random_state)
+        
+    def fit(self, X, y):
+        self.model.fit(X, y)
+
+    def predict(self, X):
+        return self.model.predict(X)
+
+class BaggingClassifier:
+    def __init__(self, n_estimators=50, random_state=42):
+        self.base_models = [
+            ('lr', LogisticRegression(max_iter=1000)),
+            ('nb', MultinomialNB()),
+            ('dt', DecisionTreeClassifier(max_depth=10))
+        ]
+        self.voting_clf = VotingClassifier(estimators=self.base_models, voting='soft')
+        self.model = Bagging(estimator=self.voting_clf, n_estimators=n_estimators, random_state=random_state)
+
+    def fit(self, X, y):
+        self.model.fit(X, y)
+
+    def predict(self, X):
+        return self.model.predict(X)

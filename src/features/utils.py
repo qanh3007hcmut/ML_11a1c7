@@ -1,3 +1,5 @@
+from sklearn.pipeline import Pipeline
+
 def build_pipeline(model_type):
     """
     Builds a text classification pipeline with TF-IDF vectorizer and Decision Tree classifier.
@@ -17,6 +19,7 @@ def build_pipeline(model_type):
     from sklearn.pipeline import Pipeline
     from sklearn.tree import DecisionTreeClassifier
     from sklearn.naive_bayes import MultinomialNB
+    from sklearn.svm import LinearSVC
     from src.models.config import CONFIG
     vectorizer = TfidfVectorizer(lowercase=True, stop_words='english', max_features=1000)
 
@@ -39,7 +42,31 @@ def build_pipeline(model_type):
     elif model_type == "hidden_markov_model":
         from src.models.config import HMMClassifier
         return HMMClassifier()
-    
+    elif model_type == "svm":
+        classifier = LinearSVC(C=CONFIG.default.C, dual=CONFIG.default.dual, max_iter=CONFIG.default.max_iter, random_state=42)
+    elif model_type == "discriminative":
+        from sklearn.feature_selection import SelectKBest, chi2
+        from sklearn.preprocessing import StandardScaler
+        from sklearn.linear_model import LogisticRegression
+
+        return Pipeline([
+            ("tfidf", TfidfVectorizer(lowercase=True, stop_words='english', max_features=2000)),
+            ("select", SelectKBest(score_func=chi2, k=1000)),
+            ("scale", StandardScaler(with_mean=False)),
+            ("clf", LogisticRegression(solver='saga', multi_class='multinomial', max_iter=1000, random_state=42))
+        ])
+    elif model_type == "bagging":
+        from src.models.config import BaggingClassifier
+        return Pipeline([
+            ("tfidf", TfidfVectorizer(lowercase=True, stop_words='english', max_features=5000)),
+            ("clf", BaggingClassifier())
+        ])
+    elif model_type == "boosting":
+        from src.models.config import BoostingClassifier
+        return Pipeline([
+            ("tfidf", TfidfVectorizer(lowercase=True, stop_words='english', max_features=5000)),
+            ("clf", BoostingClassifier())
+        ])
     else:
         raise ValueError(f"❌ Invalid model type: {model_type}.")
     
@@ -49,7 +76,7 @@ def build_pipeline(model_type):
     ])
     return pipeline
 
-def tune_hyperparameters(pipeline, X_train, y_train):
+def tune_hyperparameters(pipeline : Pipeline, X_train, y_train, isPCA = False):
     """Tunes hyperparameters for Decision Tree or Naive Bayes classifier.
     
     Args:
@@ -64,7 +91,26 @@ def tune_hyperparameters(pipeline, X_train, y_train):
     from src.models.config import CONFIG
     from sklearn.tree import DecisionTreeClassifier
     from sklearn.naive_bayes import MultinomialNB
+    from sklearn.svm import LinearSVC
+    from sklearn.decomposition import TruncatedSVD
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.pipeline import Pipeline
+    from sklearn.linear_model import LogisticRegression
+    from src.models.config import BaggingClassifier, BoostingClassifier
+    def find_n_components_by_variance(X, threshold):
+        """Tìm số lượng thành phần với phương sai tích lũy vượt ngưỡng (threshold)"""
 
+        tfidf = TfidfVectorizer(lowercase=True, stop_words='english')
+        X_tfidf = tfidf.fit_transform(X)  
+
+        svd = TruncatedSVD(n_components=min(X_tfidf.shape[1], 1000)) 
+        svd.fit(X_tfidf)  
+
+        cumulative_variance = svd.explained_variance_ratio_.cumsum()
+
+        n_components = (cumulative_variance < threshold).sum() + 1  
+        return n_components
+        
     classifier = pipeline.named_steps["clf"]
     
     if isinstance(classifier, DecisionTreeClassifier):
@@ -75,6 +121,26 @@ def tune_hyperparameters(pipeline, X_train, y_train):
         }
     elif isinstance(classifier, MultinomialNB):
         param_grid = {"clf__alpha": CONFIG.tuning.smoothing_alpha_grid}
+    elif isinstance(classifier, LinearSVC):
+        param_grid = {
+            "tfidf__max_features": CONFIG.tuning.tfidf__max_features,
+            "tfidf__ngram_range": CONFIG.tuning.tfidf__ngram_range,
+            "svm__C": CONFIG.tuning.svm__C
+        }
+        
+        if isPCA :
+            pipeline = pipeline = Pipeline([
+                ("tfidf", TfidfVectorizer(lowercase=True, stop_words='english', max_features=1000)),
+                ("clf", classifier),
+                ("svd", TruncatedSVD(n_components=find_n_components_by_variance(X_train, 0.95))),
+            ])
+    elif isinstance(classifier, LogisticRegression):
+        param_grid = {
+            "clf__C": CONFIG.tuning.clf__C,
+            "clf__penalty": CONFIG.tuning.clf__penalty
+        }
+    elif isinstance(classifier, (BaggingClassifier, BoostingClassifier)): 
+        return pipeline
     else:
         raise ValueError("❌ Unsupported model type in pipeline!")
 

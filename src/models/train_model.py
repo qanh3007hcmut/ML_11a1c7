@@ -2,6 +2,7 @@ def train_model_classifiers(model, dataset):
     # Import libs
     from src.features.utils import tune_hyperparameters, build_pipeline, save_trained_model
     from src.features.timer import TimerLogger
+    from sklearn.feature_extraction.text import TfidfVectorizer
     from src.models.config import CONFIG
     
     model_name = CONFIG.model_dict[model]
@@ -12,7 +13,7 @@ def train_model_classifiers(model, dataset):
     # Extract dataset
     X_train = dataset["train"]["text"]
     y_train = dataset["train"]["Category"]
-    
+        
     # Build and train the model
     pipeline = build_pipeline(model)
     tuned_pipeline = tune_hyperparameters(pipeline, X_train, y_train)

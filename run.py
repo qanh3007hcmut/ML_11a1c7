@@ -3,11 +3,11 @@ from src.data.preprocess import load_and_preprocess_data
 from src.features.utils import review_data
 from src.features.evaluation import *
 from src.features.utils import get_dataset
-from src.models.config import BayesianNetworkClassifier, HMMClassifier, MLPTextClassifier
 import warnings
 warnings.simplefilter("ignore", category=UserWarning)
 
 def main():
+    from src.models.config import CONFIG
     parser = argparse.ArgumentParser(description="Run various parts of the ML pipeline.")
     usage_text = """
     Usage Guide for run.py
@@ -64,7 +64,7 @@ def main():
     parser.add_argument(
         "--train", 
         type=str, 
-        choices=["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"],
+        choices=list(CONFIG.model_dict.keys()),
         help="choose model to train with dataset ag_news"
     )
     
@@ -72,7 +72,7 @@ def main():
     parser.add_argument(
         "--predict", 
         type=str, 
-        choices=["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"],
+        choices=list(CONFIG.model_dict.keys()),
         help="choose model to predict with dataset ag_news test"
     )
     
@@ -80,7 +80,7 @@ def main():
     parser.add_argument(
         "--test", 
         type=str, 
-        choices=["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"],
+        choices=list(CONFIG.model_dict.keys()),
         help="choose model to test with custom test"
     )
     
@@ -116,7 +116,7 @@ def main():
             from tests.test_models import test_model_classification
             
             model_name = args.test
-            valid_models = ["naive_bayes", "decision_tree", "neural_network", "bayesian_network", "hidden_markov_model"]
+            valid_models = list(CONFIG.model_dict.keys())
             if model_name not in valid_models:
                 parser.error(f"Invalid model name. Choose from: {valid_models}")
             

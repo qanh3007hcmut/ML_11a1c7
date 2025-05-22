@@ -13,17 +13,19 @@ def predict_model(model, dataset):
     trained_model = load_trained_model(model)
     X_test = dataset["test"]["text"]
     y_test  = dataset["test"]["Category"]
-        
+    
     predictions = trained_model.predict(X_test)
     
     timer.stop()
+    
+    predictions = map_predictions(predictions)
     
     print("=== Test Set Performance ===")
     evaluate_accuracy(y_test , predictions)
     evaluate_classification(y_test, predictions)
     print_classification_report(y_test, predictions, labels=CONFIG.categories)
 
-    if model not in ["neural_network", "hidden_markov_model", "bayesian_network"]:
+    if model not in ["neural_network", "hidden_markov_model", "bayesian_network", "svm", "svm_pca", "discriminative", "bagging", "boosting"]:
         print("=== Cross-Validation on Test Set ===")
         print_cross_validation(trained_model, dataset["train"]["text"], dataset["train"]["Category"])
         
@@ -140,3 +142,8 @@ def hidden_markov_model(dataset):
     
     plot_confusion_matrix(y_test, predictions, labels=CONFIG.categories)
     return predictions
+
+def map_predictions(predictions):
+    CATEGORY_MAPPING = {0: 'World', 1: 'Sports', 2: 'Business', 3: 'Sci/Tech'}
+    value = [item[1] for item in list(CATEGORY_MAPPING.items())]
+    return [CATEGORY_MAPPING[pred] for pred in predictions] if predictions[0] not in value else predictions
