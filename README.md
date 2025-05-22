@@ -5,12 +5,12 @@ GitHub Repository: [Our Repository Link](https://github.com/qanh3007hcmut/ML_11a
 
 | No. | Name                | Student ID | Task                                                                 | Contribution |
 |----|-------------------|------------|-----------------------------------------------------------------|--------------|
-| 1  | Lê Quốc Bảo      | 2252065     | Theory, implementation, and detailed explanation for Decision Tree and Neural Network. Writing overall report. | 33% |
-| 2  | Lê Đỗ Minh Anh   | 2252023     | Theory, implementation, and detailed explanation for Graphical Models (Bayesian Networks, HMM). Running and evaluating model results. | 33% |
-| 3  | Nguyễn Quốc Anh  | 2252035     | Theory, implementation, and detailed explanation for Naive Bayes. Creating and editing GitHub Repository. | 33% |
+| 1  | Lê Quốc Bảo      | 2252065     | Theory, implementation, and detailed explanation for Decision Tree, Neural Network, and Discriminative model. Writing overall report. | 33% |
+| 2  | Lê Đỗ Minh Anh   | 2252023     | Theory, implementation, and detailed explanation for Graphical Models (Bayesian Networks, HMM) and Ensemble Models (Bagging and Boosting). Running and evaluating model results. | 33% |
+| 3  | Nguyễn Quốc Anh  | 2252035     | Theory, implementation, and detailed explanation for Naive Bayes and SVM with PCA. Creating, editing, modularizing source in GitHub Repository. | 33% |
 
 
-A machine learning pipeline for classifying news articles into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. 
+A machine learning pipeline for classifying news into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. 
 
 The **AG News** dataset serves as a robust benchmark for text classification, comprising thousands of news articles sourced from reputable outlets such as **Reuters** and **AP**.
 
@@ -30,7 +30,11 @@ python run.py --predict naive_bayes
 - **Neural Network** (`neural_network`) - MLP for complex patterns
 - **Bayesian Network** (`bayesian_network`) - Probabilistic graphical model
 - **Hidden Markov Model** (`hidden_markov_model`) - Sequential text classifier
-
+- **Support Vector Machine** (`svm`) – Margin-based classifier. Optional PCA (`svm_pca`) available for dimensionality reduction
+- **Discriminative Model** (`discriminative`) – Logistic regression with TF-IDF, chi² selection, and scaling.
+- **Bagging Classifier** (`bagging`) – Ensemble using soft voting over Logistic regression, Naive Bayes, Decision Tree; trained via bootstrap.
+- **Boosting Classifier** (`boosting`) – AdaBoost over soft-voting ensemble; focuses on correcting previous errors.
+  
 ## Command Reference
 The main entry point for the pipeline is `run.py`, which provides a command-line interface to interact with the system.
 ```bash
@@ -84,7 +88,7 @@ python run.py --test MODEL_NAME
 ## Additional Notes
 - Models are serialized using joblib for efficient storage and loading
 - The system includes cross-validation to ensure model robustness
-- Confusion matrices help visualize classification performance
+- Confusion matrics help visualize classification performance
  
 ## Example Workflow
 
