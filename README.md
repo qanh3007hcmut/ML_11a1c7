@@ -2,12 +2,19 @@
 GitHub Repository: [Our Repository Link](https://github.com/qanh3007hcmut/ML_11a1c7)
 
 ## Contribution
-
+### Assignment 1
 | No. | Name                | Student ID | Task                                                                 | Contribution |
 |----|-------------------|------------|-----------------------------------------------------------------|--------------|
-| 1  | Lê Quốc Bảo      | 2252065     | Theory, implementation, and detailed explanation for Decision Tree, Neural Network, and Discriminative model. Writing overall report. | 33% |
-| 2  | Lê Đỗ Minh Anh   | 2252023     | Theory, implementation, and detailed explanation for Graphical Models (Bayesian Networks, HMM) and Ensemble Models (Bagging and Boosting). Running and evaluating model results. | 33% |
-| 3  | Nguyễn Quốc Anh  | 2252035     | Theory, implementation, and detailed explanation for Naive Bayes and SVM with PCA. Creating, editing, modularizing source in GitHub Repository. | 33% |
+| 1  | Lê Quốc Bảo      | 2252065     | Theory, implementation, and detailed explanation for Decision Tree, Neural Network. Writing overall report. | 33% |
+| 2  | Lê Đỗ Minh Anh   | 2252023     | Theory, implementation, and detailed explanation for Graphical Models (Bayesian Networks, HMM). Running and evaluating model results. | 33% |
+| 3  | Nguyễn Quốc Anh  | 2252035     | Theory, implementation, and detailed explanation for Naive Bayes. Creating, editing, modularizing source in GitHub Repository. | 33% |
+
+### Assignment 2
+| No. | Name                | Student ID | Task                                                                 | Contribution |
+|----|-------------------|------------|-----------------------------------------------------------------|--------------|
+| 1  | Lê Quốc Bảo      | 2252065     | Theory, implementation, and detailed explanation for Discriminative model. Writing overall report. | 33% |
+| 2  | Lê Đỗ Minh Anh   | 2252023     | Theory, implementation, and detailed explanation for Ensemble Models (Bagging and Boosting). Running and evaluating model results. | 33% |
+| 3  | Nguyễn Quốc Anh  | 2252035     | Theory, implementation, and detailed explanation for SVM with PCA. Creating, editing, modularizing source in GitHub Repository. | 33% |
 
 
 A machine learning pipeline for classifying news into four categories (World, Sports, Business, Sci/Tech) using the [fancyzhx/ag_news](https://huggingface.co/datasets/fancyzhx/ag_news?row=2&fbclid=IwY2xjawI6YoNleHRuA2FlbQIxMAABHSTM_lg9XiOtTpdj_7S_7xlHy-WQqF1ljeKtApc8FyCYgbTjFnRpT3S0Tg_aem_vtQpfcUcv-ZrxQfPN-94yQ) dataset. 
