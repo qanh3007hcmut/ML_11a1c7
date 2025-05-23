@@ -38,10 +38,10 @@ python run.py --predict naive_bayes
 - **Bayesian Network** (`bayesian_network`) - Probabilistic graphical model
 - **Hidden Markov Model** (`hidden_markov_model`) - Sequential text classifier
 - **Support Vector Machine** (`svm`) – Margin-based classifier. Optional PCA (`svm_pca`) available for dimensionality reduction
+- **Ensemble Model - Bagging Classifier** (`bagging`) – Ensemble using soft voting over Logistic regression, Naive Bayes, Decision Tree; trained via bootstrap.
+- **Ensemble Model - Boosting Classifier** (`boosting`) – AdaBoost over soft-voting ensemble; focuses on correcting previous errors.
 - **Discriminative Model** (`discriminative`) – Logistic regression with TF-IDF, chi² selection, and scaling.
-- **Bagging Classifier** (`bagging`) – Ensemble using soft voting over Logistic regression, Naive Bayes, Decision Tree; trained via bootstrap.
-- **Boosting Classifier** (`boosting`) – AdaBoost over soft-voting ensemble; focuses on correcting previous errors.
-  
+
 ## Command Reference
 The main entry point for the pipeline is `run.py`, which provides a command-line interface to interact with the system.
 ```bash
